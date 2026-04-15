@@ -1,4 +1,5 @@
 const bookingRoutes = require('./routes/bookingRoutes');
+const checkClientRoutes = require('./routes/checkClientRoutes');
 const express = require('express');
 const clientIdentificationRoutes = require('./routes/clientIdentificationRoutes');
 
@@ -15,6 +16,7 @@ app.get('/health', (req, res) => {
 
 app.use('/api', clientIdentificationRoutes);
 app.use('/api', bookingRoutes);
+app.use('/api', checkClientRoutes);
 
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);
