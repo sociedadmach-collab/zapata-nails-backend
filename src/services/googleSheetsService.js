@@ -188,6 +188,21 @@ async function updateClientFields(existingClient, fieldsToWrite) {
   return updatedClient;
 }
 
+async function appendClientRecord(clientRecord) {
+  const { headers, records } = await getClientSheetData();
+
+  if (headers.length === 0) {
+    throw new Error('CLIENTES sheet is empty or missing header row.');
+  }
+
+  await appendSheetRow(env.clientesSheetName, buildSheetRow(headers, clientRecord));
+
+  return {
+    ...clientRecord,
+    __rowNumber: records.length + 2
+  };
+}
+
 async function appendAutomationLog(logEntry) {
   const { headers, normalizedHeaders } = await getAutomationLogSheetData();
 
@@ -222,5 +237,6 @@ module.exports = {
   getClientSheetData,
   getAutomationLogSheetData,
   updateClient,
-  updateClientFields
+  updateClientFields,
+  appendClientRecord
 };
