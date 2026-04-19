@@ -90,6 +90,10 @@ async function getAutomationLogSheetData() {
   return getSheetData(env.automationLogSheetName);
 }
 
+async function getAppointmentsSheetData() {
+  return getSheetData('CITAS');
+}
+
 async function getSheetData(sheetName) {
   const values = await getSheetValues(sheetName);
 
@@ -203,6 +207,21 @@ async function appendClientRecord(clientRecord) {
   };
 }
 
+async function appendAppointmentRecord(appointmentRecord) {
+  const { headers, records } = await getAppointmentsSheetData();
+
+  if (headers.length === 0) {
+    throw new Error('CITAS sheet is empty or missing header row.');
+  }
+
+  await appendSheetRow('CITAS', buildSheetRow(headers, appointmentRecord));
+
+  return {
+    ...appointmentRecord,
+    __rowNumber: records.length + 2
+  };
+}
+
 async function appendAutomationLog(logEntry) {
   const { headers, normalizedHeaders } = await getAutomationLogSheetData();
 
@@ -236,7 +255,9 @@ module.exports = {
   appendAutomationLog,
   getClientSheetData,
   getAutomationLogSheetData,
+  getAppointmentsSheetData,
   updateClient,
   updateClientFields,
-  appendClientRecord
+  appendClientRecord,
+  appendAppointmentRecord
 };

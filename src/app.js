@@ -4,6 +4,7 @@ const express = require('express');
 const clientIdentificationRoutes = require('./routes/clientIdentificationRoutes');
 const registerClientRoutes = require('./routes/registerClientRoutes');
 const registerClientFromTextRoutes = require('./routes/registerClientFromTextRoutes');
+const saveAppointmentRoutes = require('./routes/saveAppointmentRoutes');
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use('/api', bookingRoutes);
 app.use('/api', checkClientRoutes);
 app.use('/api', registerClientRoutes);
 app.use('/api', registerClientFromTextRoutes);
+app.use('/api', saveAppointmentRoutes);
 
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);
